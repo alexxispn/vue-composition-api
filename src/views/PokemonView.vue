@@ -12,13 +12,13 @@
 <script>
 import {watch} from "vue";
 import {useRoute, onBeforeRouteLeave} from "vue-router";
-import UsePokemon from "@/composables/usePokemon";
+import usePokemon from "@/composables/usePokemon";
 
 export default {
   name: "PokemonView",
   setup() {
     const route = useRoute();
-    const {pokemon, isLoading, errorMsg, searchPokemon} = UsePokemon(route.params.id);
+    const {pokemon, isLoading, errorMsg, searchPokemon} = usePokemon(route.params.id);
     watch(
         () => route.params.id,
         (id) => searchPokemon(id)
