@@ -15,6 +15,7 @@ const useTodos = () => {
         pending: computed(() => store.getters["getPendingsTodos"]),
         filteredTodos: computed(() => store.getters["getTodosByTabs"](currentTab.value)),
         toggleTodo: (id) => store.commit("toggleTodo", id),
+        addTodo: (text) => store.commit("addTodo", text)
     }
 }
 

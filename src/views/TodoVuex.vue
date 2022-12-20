@@ -15,17 +15,50 @@
       </li>
     </ul>
   </div>
-
+  <Modal title="Add a new ToDo" v-if="isModalOpen" @close="closeModal">
+    <template v-slot:header>
+      <h1>New Task</h1>
+    </template>
+    <template v-slot:body>
+      <form @submit.prevent="addTodo(newTodoText); closeModal()">
+        <input type="text"
+               placeholder="New Task"
+               v-model="newTodoText">
+      </form>
+    </template>
+    <template v-slot:footer>
+      <button @click="closeModal">Cancel</button>
+      <button @click="addTodo(newTodoText); closeModal()">Add</button>
+    </template>
+  </Modal>
+  <button class="add-todo" @click="openModal">Add Todo</button>
 </template>
 
 <script>
 import UseTodos from "@/composables/useTodos";
+import Modal from "@/components/Modal";
+import {ref} from "vue";
 
 export default {
   name: "TodoVuex",
+  components: {Modal},
   setup() {
-    const {currentTab, tabs, all, completed, pending, toggleTodo, filteredTodos} = UseTodos();
-    return { currentTab, tabs, all, completed, pending, toggleTodo, filteredTodos };
+    const {currentTab, tabs, all, completed, pending, toggleTodo, filteredTodos, addTodo} = UseTodos();
+    const isModalOpen = ref(false);
+    return {
+      currentTab,
+      tabs,
+      all,
+      completed,
+      pending,
+      toggleTodo,
+      filteredTodos,
+      addTodo,
+      isModalOpen,
+      closeModal: () => isModalOpen.value = false,
+      openModal: () => isModalOpen.value = true,
+      newTodoText: ref('')
+    };
   }
 }
 </script>
@@ -68,5 +101,13 @@ button:hover {
 
 .completed {
   text-decoration: line-through;
+}
+
+input {
+  display: block;
+  height: 1rem;
+  margin: 1rem auto;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
 }
 </style>
